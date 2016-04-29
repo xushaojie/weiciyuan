@@ -87,8 +87,8 @@ public class MainTimeLineActivity extends MainTimeLineParentActivity {
       notification bar
      */
     public static Intent newIntent(AccountBean accountBean, MessageListBean mentionsWeiboData,
-            CommentListBean mentionsCommentData, CommentListBean commentsToMeData,
-            UnreadBean unreadBean) {
+                                   CommentListBean mentionsCommentData, CommentListBean commentsToMeData,
+                                   UnreadBean unreadBean) {
         Intent intent = newIntent();
         intent.putExtra(BundleArgsConstants.ACCOUNT_EXTRA, accountBean);
         intent.putExtra(BundleArgsConstants.MENTIONS_WEIBO_EXTRA, mentionsWeiboData);
@@ -128,8 +128,7 @@ public class MainTimeLineActivity extends MainTimeLineParentActivity {
             accountBean = savedInstanceState.getParcelable(BundleArgsConstants.ACCOUNT_EXTRA);
         } else {
             Intent intent = getIntent();
-            accountBean = intent
-                    .getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
+            accountBean = intent.getParcelableExtra(BundleArgsConstants.ACCOUNT_EXTRA);
         }
 
         if (accountBean == null) {
@@ -159,12 +158,10 @@ public class MainTimeLineActivity extends MainTimeLineParentActivity {
 
         if (savedInstanceState == null) {
             initFragments();
-            FragmentTransaction secondFragmentTransaction = getSupportFragmentManager()
-                    .beginTransaction();
-            secondFragmentTransaction
-                    .replace(R.id.menu_frame, getMenuFragment(), LeftMenuFragment.class.getName());
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.menu_frame, getMenuFragment(), LeftMenuFragment.class.getName());
             getSlidingMenu().showContent();
-            secondFragmentTransaction.commit();
+            ft.commit();
         }
         configSlidingMenu(phone);
     }
@@ -178,30 +175,26 @@ public class MainTimeLineActivity extends MainTimeLineParentActivity {
         Fragment fav = getFavFragment();
         Fragment myself = getMyProfileFragment();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (!friend.isAdded()) {
-            fragmentTransaction
-                    .add(R.id.menu_right_fl, friend, FriendsTimeLineFragment.class.getName());
-            fragmentTransaction.hide(friend);
+            ft.add(R.id.menu_right_fl, friend, FriendsTimeLineFragment.class.getName());
+            ft.hide(friend);
         }
         if (!mentions.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, mentions, MentionsTimeLine.class.getName());
-            fragmentTransaction.hide(mentions);
+            ft.add(R.id.menu_right_fl, mentions, MentionsTimeLine.class.getName());
+            ft.hide(mentions);
         }
         if (!comments.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, comments, CommentsTimeLine.class.getName());
-            fragmentTransaction.hide(comments);
+            ft.add(R.id.menu_right_fl, comments, CommentsTimeLine.class.getName());
+            ft.hide(comments);
         }
-
         if (!fav.isAdded()) {
-            fragmentTransaction.add(R.id.menu_right_fl, fav, MyFavListFragment.class.getName());
-            fragmentTransaction.hide(fav);
+            ft.add(R.id.menu_right_fl, fav, MyFavListFragment.class.getName());
+            ft.hide(fav);
         }
-
         if (!myself.isAdded()) {
-            fragmentTransaction
-                    .add(R.id.menu_right_fl, myself, UserInfoFragment.class.getName());
-            fragmentTransaction.hide(myself);
+            ft.add(R.id.menu_right_fl, myself, UserInfoFragment.class.getName());
+            ft.hide(myself);
         }
 
         if (GlobalContext.getInstance().getAccountBean().isBlack_magic()) {
@@ -209,19 +202,17 @@ public class MainTimeLineActivity extends MainTimeLineParentActivity {
             Fragment dm = getDMFragment();
 
             if (!search.isAdded()) {
-                fragmentTransaction
-                        .add(R.id.menu_right_fl, search, SearchMainParentFragment.class.getName());
-                fragmentTransaction.hide(search);
+                ft.add(R.id.menu_right_fl, search, SearchMainParentFragment.class.getName());
+                ft.hide(search);
             }
-
             if (!dm.isAdded()) {
-                fragmentTransaction.add(R.id.menu_right_fl, dm, DMUserListFragment.class.getName());
-                fragmentTransaction.hide(dm);
+                ft.add(R.id.menu_right_fl, dm, DMUserListFragment.class.getName());
+                ft.hide(dm);
             }
         }
 
-        if (!fragmentTransaction.isEmpty()) {
-            fragmentTransaction.commit();
+        if (!ft.isEmpty()) {
+            ft.commit();
             getSupportFragmentManager().executePendingTransactions();
         }
     }
