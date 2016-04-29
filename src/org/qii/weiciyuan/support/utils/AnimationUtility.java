@@ -54,6 +54,7 @@ public class AnimationUtility {
         objectAnimator.start();
     }
 
+    @SuppressWarnings("NullArgumentToVariableArgMethod")
     public static void forceConvertActivityFromTranslucent(Activity activity) {
         try {
             Method method = Activity.class.getDeclaredMethod("convertFromTranslucent", null);

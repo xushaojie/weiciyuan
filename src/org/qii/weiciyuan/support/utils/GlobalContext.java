@@ -1,7 +1,5 @@
 package org.qii.weiciyuan.support.utils;
 
-import com.crashlytics.android.Crashlytics;
-
 import org.qii.weiciyuan.R;
 import org.qii.weiciyuan.bean.AccountBean;
 import org.qii.weiciyuan.bean.GroupListBean;
@@ -60,8 +58,7 @@ public final class GlobalContext extends Application {
     private AccountBean accountBean = null;
     private GroupListBean group = null;
 
-    private LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>> emotionsPic
-            = new LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>>();
+    private LinkedHashMap<Integer, LinkedHashMap<String, Bitmap>> emotionsPic = new LinkedHashMap<>();
     private MusicInfo musicInfo = new MusicInfo();
 
     public boolean tokenExpiredDialogIsShowing = false;
@@ -73,9 +70,10 @@ public final class GlobalContext extends Application {
         buildCache();
         CrashManagerConstants.loadFromContext(this);
         CrashManager.registerHandler();
-        if (Utility.isCertificateFingerprintCorrect(this)) {
-            Crashlytics.start(this);
-        }
+        // 移除错误统计
+//        if (Utility.isCertificateFingerprintCorrect(this)) {
+//            Crashlytics.start(this);
+//        }
         registerActivityLifecycleCallbacks(new AppActivityLifecycleCallbacks());
     }
 
@@ -151,8 +149,7 @@ public final class GlobalContext extends Application {
         return accountBean;
     }
 
-    private Set<MyProfileInfoChangeListener> profileListenerSet
-            = new HashSet<MyProfileInfoChangeListener>();
+    private Set<MyProfileInfoChangeListener> profileListenerSet = new HashSet<>();
 
     public void registerForAccountChangeListener(MyProfileInfoChangeListener listener) {
         if (listener != null) {
@@ -210,15 +207,11 @@ public final class GlobalContext extends Application {
     }
 
     private void buildCache() {
-        int memClass = ((ActivityManager) getSystemService(
-                Context.ACTIVITY_SERVICE)).getMemoryClass();
-
+        int memClass = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
         int cacheSize = Math.max(1024 * 1024 * 8, 1024 * 1024 * memClass / 5);
-
         appBitmapCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
-
                 return bitmap.getByteCount();
             }
         };
@@ -290,5 +283,6 @@ public final class GlobalContext extends Application {
     public boolean checkUserIsLogin() {
         return getInstance().getAccountBean() != null;
     }
+
 }
 
